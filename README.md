@@ -76,6 +76,7 @@ Version 4 (Week 5 – Planned Updates)
 	•	Push current codebase to GitHub repository with updated README.
  
 Current Code Snippet (FakeCallActivity.java)
+
 java
 CopyEdit
 package com.SafeBurst.app.ui;

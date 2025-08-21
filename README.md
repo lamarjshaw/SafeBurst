@@ -1,122 +1,91 @@
 Lamar Shaw
 
-Android App Progress M5
+SafeBurst README
 
-SafeBurst Project Outline (Version 3)
+Project Overview
 
-I. Project Description
+SafeBurst is a personal-safety Android application designed for discreet emergency activation. With features like fake calls, GPS live location SMS, and silent notification muting, it helps users quietly escape or diffuse uncomfortable situations through a custom trigger phrase or shake gesture.
 
-A. What is the app about? SafeBurst is a personal-safety Android application that allows users to discreetly trigger protective actions—such as a fake phone call, GPS location sharing, or notification muting—by using a secret escape phrase or subtle phone gesture (e.g., shake).
+Directory Structure
 
-B. Purpose and Audience
-	•	Purpose: Provide an instant, low-friction way to exit or defuse uncomfortable or dangerous situations.
-	•	Primary Users: College students, night-life patrons, dating-app users, commuters, and anyone seeking a discreet emergency safety tool.
- 
-II. Problem Addressed
+SafeBurst/ ├── app/ 
+├── src/main/java/com/safeburst/app/   # Java source code │   
+├── res/layout/                        # XML layout files │   
+├── res/drawable/                      # Icons/images │   
+└── AndroidManifest.xml                # App manifest 
+├── build.gradle                           # App-level Gradle config 
+├── settings.gradle                        # Project-level Gradle config 
+├── app-release.aab                        # Bundle for Play Store 
+├── app-release.apk                        # Debug/release APK 
+├── output-metadata.json                   # Build metadata 
+├── README.md                              # This documentation 
+└── LICENSE                                # License file
 
-A. Specific Issue Solved Most emergency apps require unlocking the phone and manual input, which is too slow and obvious in high-stress scenarios.
+Java Source Code
 
-B. Why it is Important
-	•	Addresses rising safety concerns during social/dating encounters.
-	•	Provides accessibility-first, panic-free activation (no complicated UI).
-	•	Supports mental-health use cases like anxiety or overstimulation.
- 
-III. Platform
-	•	Target OS: Android (API 21+).
-	•	Development Stack: Migrated from MIT App Inventor prototype to full Android Studio Java implementation for production scalability.
- 
-IV. Front / Back-End Support
+Located at: app/src/main/java/com/safeburst/app/ 
+Contains the core logic such as:
+- MainActivity.java: Entry screen with Panic button and settings access
+- FakeCallActivity.java: Simulated incoming call behavior
+- SettingsActivity.java: Interface for customizing secret phrases and toggles
 
-A. Front-End
-	•	activity_main.xml: PANIC button, Settings button, toggle switches for Fake Call, GPS, Mute Notifications.
-	•	activity_fake_call.xml: Simulates incoming call UI with Answer and Decline buttons.
- 
-B. Back-End Logic
-	•	SpeechRecognizer: Detects custom voice trigger phrase.
-	•	MediaPlayer: Plays custom fake call ringtone.
-	•	Location Services: Sends live GPS via SMS.
-	•	TinyDB / SharedPreferences: Stores secret phrase and contact list.
-	•	Accelerometer: Detects shake gesture.
- 
-V. Functionality
-	1.	Custom Trigger Phrase
-	2.	Instant Fake Call (newly implemented)
-	3.	Live Location SMS
-	4.	Safe Mode Toggle
-	5.	Backup Gesture Activation
- 
-VI. Design (Wireframes / Layout)
-	•	Main Activity: PANIC button, Settings button, Toggles.
-	•	Fake Call Screen: Incoming call UI with Answer/Decline.
-	•	Settings Activity: Configure phrase, contact, and actions. 
+XML Layout Files
 
-Version Changelog
+Located at: app/src/main/res/layout/ 
+- activity_main.xml: Main screen UI with panic and settings toggles
+- activity_fake_call.xml: UI for the fake call screen
+- activity_settings.xml: UI for configuring preferences
 
-Version 1 (Week 2)
-	•	Created initial outline and concept.
-	•	Built wireframes in MIT App Inventor.
-	•	Established core features: voice trigger, fake call, GPS sharing.
- 
-Version 2 (Week 3)
-	•	Migrated project to Android Studio (Java).
-	•	Implemented MainActivity with UI for PANIC and Settings buttons.
-	•	Integrated SpeechRecognizer for trigger phrase detection.
- 
-Version 3 (Week 4 – Current Update)
-	•	Added FakeCallActivity.java with simulated incoming call screen.
-	•	Implemented MediaPlayer to play ringtone on Answer button.
-	•	Added btnDecline functionality to close the activity.
-	•	Updated layout files (activity_fake_call.xml, activity_main.xml).
-	•	Tested app on Nexus 5X API emulator (build successful).
- 
-Version 4 (Week 5 – Planned Updates)
-	•	Add GPS live SMS sender feature.
-	•	Integrate contact picker for emergency contacts.
-	•	Save user settings via SharedPreferences.
-	•	Push current codebase to GitHub repository with updated README.
- 
-Current Code Snippet (FakeCallActivity.java)
+Icons and Drawables
 
-java
-CopyEdit
-package com.SafeBurst.app.ui;
- 
-import android.media.MediaPlayer;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import androidx.appcompat.app.AppCompatActivity;
-import com.SafeBurst.app.R;
- 
-public class FakeCallActivity extends AppCompatActivity {
- 
-    private Button btnAnswer, btnDecline;
-    private MediaPlayer player;
- 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fake_call);
- 
-        btnAnswer = findViewById(R.id.btnAnswer);
-        btnDecline = findViewById(R.id.btnDecline);
- 
-        btnAnswer.setOnClickListener(view -> {
-            if (player == null) {
-                player = MediaPlayer.create(this, R.raw.incoming_call);
-            }
-            player.start();
-        });
- 
-        btnDecline.setOnClickListener(view -> finish());
-    }
- 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (player != null) {
-            player.release();
-        }
-    }
-}
- 
+Located at: app/src/main/res/drawable/ 
+Includes: 
+- App icon
+- Button images for Answer/Decline
+- Background visuals
+
+Android Manifest
+
+Located at: app/src/main/AndroidManifest.xml 
+Declares permissions: 
+- android.permission.CALL_PHONE
+- android.permission.SEND_SMS
+- android.permission.ACCESS_FINE_LOCATION
+Registers activities:
+- MainActivity
+- FakeCallActivity
+- SettingsActivity
+
+Build Files
+
+- build.gradle: Contains dependencies like SpeechRecognizer, Location Services, MediaPlayer.
+- settings.gradle: Declares the root project name and includes module app.
+
+Build Artifacts
+
+- app-release.apk: Signed installable app file
+- app-release.aab: Android App Bundle for Play Store upload
+- output-metadata.json: Contains metadata from the last build process
+  
+Installation Instructions
+
+1. Clone this repo to your local machine.
+2. Open in Android Studio.
+3. Build > Build Bundle(s)/APK(s) > Build APK(s)
+4. Install on your device for testing or push to Play Store using the .aab file.
+   
+Usage
+
+- Launch SafeBurst and configure your secret phrase and actions in Settings.
+- Activate the app using voice or shake gesture.
+- Panic mode triggers the configured response (fake call, GPS text, mute notifications).
+
+License
+
+This project is licensed under the MIT License. SafeBurst was developed using Android Studio and is currently available on the Google Play Store. For full terms and usage permissions, please refer to the LICENSE file included in this repository.
+
+Roadmap
+- Integrate local database for logging incidents 
+- Add support for dark mode and theming
+- Explore iOS version using Swift
+
